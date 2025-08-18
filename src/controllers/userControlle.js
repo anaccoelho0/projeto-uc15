@@ -24,15 +24,42 @@ class UserController {
         try {
             const id = req.params.id;
             const user = await UserService.findUserById(id);
-            if (!user) {
+            if (user) {
                 return res.status(200).json(user);
              } else {
-                return res.status(404).json({ error: 'User not found' }); 
+                return res.status(404).json({ error: 'Produto não encontrado' }); 
                 } 
              } catch (error) {
             res.status(500).json({ error: error.message });
                 }
             }
+
+    async updateUser(req, res) {
+        try {
+            const id = parseInt(req.params.id, 10);
+            const userData = req.body;
+            const user = await UserService.updateUser(id, userData);
+            if (user) {
+                return res.status(404).json({ error: 'Produto não encontrado' });
+            }
+            res.status(200).json(user);
+        } catch (error) {
+            res.status(400).json({ error: error.message });
         }
+    }
+
+        async deleteUser(req, res) {
+            try {
+                const id = req.params.id;
+                const user = await UserService.deleteUser(id);
+                if (!user) {
+                    return res.status(404).json({ error: 'Produto não encontrado' });
+                }
+                res.status(200).json(user);
+            } catch (error) {
+                res.status(500).json({ error: error.message });
+            }
+        }
+    }
 
 module.exports = new UserController();

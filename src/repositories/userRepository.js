@@ -5,21 +5,38 @@ const users = [];
 class UserRepository {
 
     save(userData) {
-        const user = new User(userData.name, userData.email, userData.id)
+        const user = new User(userData.id, userData.produto);
         users.push(user);
         return user;
     }
 
-
-findAll() {
+findAll() {    
     return users;
     }
 
-findUserById(id) {
+findById(id) {
     return users.find(user => user.id === id);
 }
-    getUsers(req, res) {
-        res.status(200).json(users);
+
+update(id, userData) {
+    const user = this.findById(id);
+    if (user) {
+        user.id = userData.id || user.id;
+        user.produto = userData.produto || user.produto;
+        return user;
     }
+
+    return null;
+
 }
+
+delete (id) {
+    const index = users.findIndex(user => user.id === id);
+    if (index !== -1) {
+        return users.splice(index, 1)[0];
+    }
+    return null;
+}
+}
+
 module.exports = new UserRepository();

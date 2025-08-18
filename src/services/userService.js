@@ -3,8 +3,8 @@ const userRepository = require('../repositories/userRepository');
 class UserService{
 
      async createUser(userData) {
-         if (!userData.name || !userData.email || !userData.id) {
-              throw new Error('Name and email are required');
+         if (userData.id || !userData.produto) {
+              throw new Error('Id e produtos são obrigatórios');
        }
        const user = await userRepository.save(userData);
        return user;
@@ -16,9 +16,21 @@ class UserService{
     }
 
     async findUserById(id) {
-        const user = await userRepository.findUserById(id);
+        const user = await userRepository.findById(id);
         return user;
   }
+
+  async updateUser(id, userData) {
+    const user = await userRepository.update(id, userData);
+    return user;
+
+}
+
+async deleteUser(id) {
+    const user = await userRepository.delete(id);
+    return user;
+}
+
 }
 
 module.exports = new UserService();

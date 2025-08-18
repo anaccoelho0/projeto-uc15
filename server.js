@@ -1,30 +1,34 @@
 const express = require('express');
 const app = express();
-const port = 3000; 
+const port = 3000;
 
-const oiController = require('./src/constrollers/oiController');
-const UserController = require('./src/constrollers/userControlle');
+
+const ProdutoController = require('./src/controllers/produtoController');
 
 app.use(express.json());
 
-app.get('/oi', oiController.sayOi);
 
 
 
-app.post('/users', (req, res) => {
-    UserController.createUser(req, res);
-}); 
-
-app.get('/users/:id', (req, res) => {
-    UserController.getUserById(req, res);
+app.post('/produtos', (req, res) => {
+  ProdutoController.createProduto(req, res);
 });
 
-app.get('/users', (req, res) => {
-    UserController.findAllUsers(req, res);
+app.get('/produtos', (req, res) => {
+  ProdutoController.findAllProdutos(req, res);
 });
 
-app.use('/users', (req, res) => {
-    UserController.getUsers(req, res);
+app.get('/produtos/:id', (req, res) => {
+  ProdutoController.getProdutoById(req, res);
+});
+
+
+app.put('/produtos/:id', (req, res) => {
+  ProdutoController.updateProduto(req, res);
+});
+
+app.delete('/produtos/:id', (req, res) => {
+  ProdutoController.deleteProduto(req, res);
 });
 
 app.listen(port, () => {
